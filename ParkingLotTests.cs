@@ -29,6 +29,21 @@ namespace Tests
         }
 
         [Test]
+        public void TestParkCar_FailParkingIsFull()
+        {
+            // Arrange
+            IParkingLot parkingLot = new ParkingLot();
+            for (int i = 0; i < 10; i++)
+            {
+                string licensePlateNumber = $"ABC123{i}";
+                parkingLot.ParkCar(licensePlateNumber);
+            }
+
+            // Act & Assert
+            Assert.Throws<ParkingLotFullException>(() => parkingLot.ParkCar("XYZ789"));
+        }
+
+        [Test]
         public void TestParkCar_DuplicateLicensePlate_Exception()
         {
             // Arrange
@@ -152,6 +167,28 @@ namespace Tests
             Assert.AreEqual(2, parkedCars.Count());
             Assert.IsTrue(parkedCars.Any(pc => pc.LicensePlate == licensePlateNumber1));
             Assert.IsTrue(parkedCars.Any(pc => pc.LicensePlate == licensePlateNumber2));
+        }
+        [Test]
+        public void TestGetNumberOfFreeSpots()
+        {
+            // Arrange
+            ParkingLot parkingLot = new ParkingLot();
+            parkingLot.ParkCar("AB-123-CD");
+
+            // Act
+            int numberOfFreeSpots = parkingLot.GetNumberOfFreeSpots();
+
+            // Assert
+            Assert.AreEqual(9, numberOfFreeSpots);
+
+            // Park another car
+            parkingLot.ParkCar("EF-456-GH");
+
+            // Act
+            numberOfFreeSpots = parkingLot.GetNumberOfFreeSpots();
+
+            // Assert
+            Assert.AreEqual(8, numberOfFreeSpots);
         }
     }
 }

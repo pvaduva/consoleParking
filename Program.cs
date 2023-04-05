@@ -17,7 +17,8 @@ namespace parking
                 Console.WriteLine("2. Park a car");
                 Console.WriteLine("3. Unpark a car");
                 Console.WriteLine("4. Pay for parking");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("5. View number of free parking spots.");
+                Console.WriteLine("6. Exit");
 
                 Console.Write("Enter option number: ");
                 string input = Console.ReadLine();
@@ -85,6 +86,10 @@ namespace parking
                         }
                         break;
                     case "5":
+                        int freeSpots = parkingLot.GetNumberOfFreeSpots();
+                        Console.WriteLine($"There are {freeSpots} free parking spots available.");
+                        break;
+                    case "6":
                         exit = true;
                         break;
                     default:
